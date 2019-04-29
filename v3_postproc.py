@@ -14,7 +14,7 @@ from countHistogramsModule import *
 
 #p=PostProcessor(".",inputFiles(),None,"keep_and_drop.txt",[countHistogramsModule(),exampleModule()],provenance=True,justcount=False,fwkJobReport=True,jsonInput=runsAndLumis(),noOut=False,outputbranchsel = "output_branch_selection.txt")
 
-p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/WkkToWRadionToWWW_M3000-R0-08_TuneCP5_13TeV-madgraph/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/10000/3D80B581-DCBF-E94B-AF09-AA58C00AC90B.root"],None,"v3_keep_and_drop.txt",[countHistogramsModule(),v3Module()],provenance=True,justcount=False,noOut=False,fwkJobReport=True, outputbranchsel = "v3_output_branch_selection.txt")
+p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIISummer16NanoAODv4/WW_TuneCUETP8M1_13TeV-pythia8/NANOAODSIM/PUMoriond17_Nano14Dec2018_102X_mcRun2_asymptotic_v6_ext1-v1/40000/83C07235-3B39-F149-91A7-3729E29794A9.root"],None,"v3_keep_and_drop.txt",[countHistogramsModule(),v3Module()],provenance=True,justcount=False,noOut=False,fwkJobReport=True, outputbranchsel = "v3_output_branch_selection.txt")
 
 p.run()
 

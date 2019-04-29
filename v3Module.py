@@ -142,9 +142,9 @@ class v3Producer(Module):
         fatjet0_deepw=-1.
         fatjet0_deeph=-1.
         if nfatjets > 0 :
-            fatjet0_pt=fat_jets[0].pt
-            fatjet0_deepw=fat_jets[0].FatJet_deepTagMD_WvsQCD
-            fatjet0_deeph=fat_jets[0].FatJet_deepTagMD_H4qvsQCD           
+            fatjet0_pt=fatjets[fat_jets[0]].pt
+            fatjet0_deepw=fatjets[fat_jets[0]].deepTagMD_WvsQCD
+            fatjet0_deeph=fatjets[fat_jets[0]].deepTagMD_H4qvsQCD           
 
         
         if len(tight_muons) == 1:
