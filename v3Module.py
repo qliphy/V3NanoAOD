@@ -9,6 +9,8 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaR
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaPhi
 
+jetsize=6
+
 class v3Producer(Module):
     def __init__(self):
         pass
@@ -30,8 +32,12 @@ class v3Producer(Module):
         self.out.branch("lepton_eta",  "F");
         self.out.branch("met",  "F");
         self.out.branch("mt",  "F");
-        self.out.branch("njets","I")
-        self.out.branch("nfatjets","I")
+        self.out.branch("njets","I");
+#        self.out.branch("jets_pt[6]","F");
+        self.out.branch("jets_pt","F",lenVar="jetsize");   
+#        self.out.branch("jets_eta[6]","F");
+        self.out.branch("jets_eta","F",lenVar="jetsize");   
+        self.out.branch("nfatjets","I");
         self.out.branch("fatjet0_pt",  "F");
         self.out.branch("fatjet0_deepw",  "F");
         self.out.branch("fatjet0_deeph",  "F");
@@ -61,6 +67,7 @@ class v3Producer(Module):
         lower_pt_electrons = []
         tight_electrons = []
         loose_but_not_tight_electrons = []
+        ak4_jets = []
         fat_jets = []
 
         for i in range(0,len(muons)):
@@ -115,7 +122,15 @@ class v3Producer(Module):
                     pass_lepton_dr_cut = False
             if not pass_lepton_dr_cut:
                 continue
+            ak4_jets.append(i)
             njets+=1
+
+        jets_pt=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
+        jets_eta=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
+        for i in range(0,6):
+           if(i<njets) :
+              jets_pt[i]=jets[ak4_jets[0]].pt
+              jets_eta[i]=jets[ak4_jets[0]].eta
 
 
         nfatjets = 0
@@ -198,6 +213,9 @@ class v3Producer(Module):
             self.out.fillBranch("ntruepu",0)
 
         self.out.fillBranch("njets",njets)
+        self.out.fillBranch("jets_pt",jets_pt)
+        self.out.fillBranch("jets_eta",jets_eta)
+        self.out.fillBranch("fatjet0_pt",fatjet0_pt)
         self.out.fillBranch("nfatjets",nfatjets)
         self.out.fillBranch("fatjet0_pt",fatjet0_pt)
         self.out.fillBranch("fatjet0_deepw",fatjet0_deepw)
