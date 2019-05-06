@@ -10,6 +10,7 @@ from PhysicsTools.NanoAODTools.postprocessing.tools import deltaR
 from PhysicsTools.NanoAODTools.postprocessing.tools import deltaPhi
 
 jetsize=6
+fatjetsize=3
 
 class v3Producer(Module):
     def __init__(self):
@@ -33,15 +34,15 @@ class v3Producer(Module):
         self.out.branch("met",  "F");
         self.out.branch("mt",  "F");
         self.out.branch("njets","I");
-#        self.out.branch("jets_pt[6]","F");
         self.out.branch("jets_pt","F",lenVar="jetsize");   
-#        self.out.branch("jets_eta[6]","F");
         self.out.branch("jets_eta","F",lenVar="jetsize");   
         self.out.branch("nfatjets","I");
-        self.out.branch("fatjet0_pt",  "F");
-        self.out.branch("fatjet0_deepw",  "F");
-        self.out.branch("fatjet0_deeph",  "F");
+        self.out.branch("fatjets_pt","F",lenVar="fatjetsize");
+        self.out.branch("fatjets_eta","F",lenVar="fatjetsize");
+        self.out.branch("fatjets_deepw","F",lenVar="fatjetsize");
+        self.out.branch("fatjets_deeph","F",lenVar="fatjetsize");
         self.out.branch("gen_weight",  "F");
+
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
     def analyze(self, event):
@@ -129,8 +130,8 @@ class v3Producer(Module):
         jets_eta=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
         for i in range(0,6):
            if(i<njets) :
-              jets_pt[i]=jets[ak4_jets[0]].pt
-              jets_eta[i]=jets[ak4_jets[0]].eta
+              jets_pt[i]=jets[ak4_jets[i]].pt
+              jets_eta[i]=jets[ak4_jets[i]].eta
 
 
         nfatjets = 0
@@ -153,13 +154,16 @@ class v3Producer(Module):
             fat_jets.append(i)
             nfatjets+=1
 
-        fatjet0_pt=-1.
-        fatjet0_deepw=-1.
-        fatjet0_deeph=-1.
-        if nfatjets > 0 :
-            fatjet0_pt=fatjets[fat_jets[0]].pt
-            fatjet0_deepw=fatjets[fat_jets[0]].deepTagMD_WvsQCD
-            fatjet0_deeph=fatjets[fat_jets[0]].deepTagMD_H4qvsQCD           
+        fatjets_pt=[-10.0,-10.0,-10.0]
+        fatjets_eta=[-10.0,-10.0,-10.0]
+        fatjets_deepw=[-10.0,-10.0,-10.0]
+        fatjets_deeph=[-10.0,-10.0,-10.0]
+        for i in range(0,3):
+           if(i<nfatjets) :
+             fatjets_pt[i]=fatjets[fat_jets[i]].pt
+             fatjets_eta[i]=fatjets[fat_jets[i]].eta
+             fatjets_deepw[i]=fatjets[fat_jets[i]].deepTagMD_WvsQCD
+             fatjets_deeph[i]=fatjets[fat_jets[i]].deepTagMD_H4qvsQCD           
 
         
         if len(tight_muons) == 1:
@@ -215,11 +219,11 @@ class v3Producer(Module):
         self.out.fillBranch("njets",njets)
         self.out.fillBranch("jets_pt",jets_pt)
         self.out.fillBranch("jets_eta",jets_eta)
-        self.out.fillBranch("fatjet0_pt",fatjet0_pt)
         self.out.fillBranch("nfatjets",nfatjets)
-        self.out.fillBranch("fatjet0_pt",fatjet0_pt)
-        self.out.fillBranch("fatjet0_deepw",fatjet0_deepw)
-        self.out.fillBranch("fatjet0_deeph",fatjet0_deeph)
+        self.out.fillBranch("fatjets_pt",fatjets_pt)
+        self.out.fillBranch("fatjets_eta",fatjets_eta)
+        self.out.fillBranch("fatjets_deepw",fatjets_deepw)
+        self.out.fillBranch("fatjets_deeph",fatjets_deeph)
         self.out.fillBranch("npvs",event.PV_npvs)
         self.out.fillBranch("event",event.event)
         self.out.fillBranch("lumi",event.luminosityBlock)
