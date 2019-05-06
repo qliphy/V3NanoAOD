@@ -36,9 +36,13 @@ class v3Producer(Module):
         self.out.branch("njets","I");
         self.out.branch("jets_pt","F",lenVar="jetsize");   
         self.out.branch("jets_eta","F",lenVar="jetsize");   
+        self.out.branch("jets_phi","F",lenVar="jetsize");
+        self.out.branch("jets_mass","F",lenVar="jetsize");
         self.out.branch("nfatjets","I");
         self.out.branch("fatjets_pt","F",lenVar="fatjetsize");
         self.out.branch("fatjets_eta","F",lenVar="fatjetsize");
+        self.out.branch("fatjets_phi","F",lenVar="fatjetsize");
+        self.out.branch("fatjets_mass","F",lenVar="fatjetsize");
         self.out.branch("fatjets_deepw","F",lenVar="fatjetsize");
         self.out.branch("fatjets_deeph","F",lenVar="fatjetsize");
         self.out.branch("gen_weight",  "F");
@@ -128,11 +132,14 @@ class v3Producer(Module):
 
         jets_pt=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
         jets_eta=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
+        jets_phi=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
+        jets_mass=[-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
         for i in range(0,6):
            if(i<njets) :
               jets_pt[i]=jets[ak4_jets[i]].pt
               jets_eta[i]=jets[ak4_jets[i]].eta
-
+              jets_phi[i]=jets[ak4_jets[i]].phi
+              jets_mass[i]=jets[ak4_jets[i]].mass
 
         nfatjets = 0
         for i in range(0,len(fatjets)):
@@ -156,12 +163,16 @@ class v3Producer(Module):
 
         fatjets_pt=[-10.0,-10.0,-10.0]
         fatjets_eta=[-10.0,-10.0,-10.0]
+        fatjets_phi=[-10.0,-10.0,-10.0]
+        fatjets_mass=[-10.0,-10.0,-10.0]
         fatjets_deepw=[-10.0,-10.0,-10.0]
         fatjets_deeph=[-10.0,-10.0,-10.0]
         for i in range(0,3):
            if(i<nfatjets) :
              fatjets_pt[i]=fatjets[fat_jets[i]].pt
              fatjets_eta[i]=fatjets[fat_jets[i]].eta
+             fatjets_phi[i]=fatjets[fat_jets[i]].phi
+             fatjets_mass[i]=fatjets[fat_jets[i]].mass
              fatjets_deepw[i]=fatjets[fat_jets[i]].deepTagMD_WvsQCD
              fatjets_deeph[i]=fatjets[fat_jets[i]].deepTagMD_H4qvsQCD           
 
@@ -219,9 +230,13 @@ class v3Producer(Module):
         self.out.fillBranch("njets",njets)
         self.out.fillBranch("jets_pt",jets_pt)
         self.out.fillBranch("jets_eta",jets_eta)
+        self.out.fillBranch("jets_phi",jets_phi)
+        self.out.fillBranch("jets_mass",jets_mass)
         self.out.fillBranch("nfatjets",nfatjets)
         self.out.fillBranch("fatjets_pt",fatjets_pt)
         self.out.fillBranch("fatjets_eta",fatjets_eta)
+        self.out.fillBranch("fatjets_phi",fatjets_phi)
+        self.out.fillBranch("fatjets_mass",fatjets_mass)
         self.out.fillBranch("fatjets_deepw",fatjets_deepw)
         self.out.fillBranch("fatjets_deeph",fatjets_deeph)
         self.out.fillBranch("npvs",event.PV_npvs)

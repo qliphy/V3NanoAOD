@@ -15,3 +15,4 @@ git clone https://github.com/cms-nanoAOD/nanoAOD-tools.git PhysicsTools/NanoAODT
 
 git clone git@github.com:qliphy/V3NanoAOD.git
 
+scram b -j4
