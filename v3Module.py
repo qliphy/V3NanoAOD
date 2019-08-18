@@ -84,8 +84,6 @@ class v3Producer(Module):
             elif muons[i].pt > 10 and abs(muons[i].eta) < 2.4:
                 if muons[i].tightId and muons[i].pfRelIso04_all < 0.15:
                     lower_pt_muons.append(i)
-                elif muons[i].pfRelIso04_all < 0.25:
-                    lower_pt_muons.append(i)
 
         #for processing speed-up
         if len(tight_muons) + len(loose_but_not_tight_muons) > 1:
@@ -102,8 +100,6 @@ class v3Producer(Module):
                 if (abs(electrons[i].eta + electrons[i].deltaEtaSC) < 1.479 and abs(electrons[i].dz) < 0.1 and abs(electrons[i].dxy) < 0.05) or (abs(electrons[i].eta + electrons[i].deltaEtaSC) > 1.479 and abs(electrons[i].dz) < 0.2 and abs(electrons[i].dxy) < 0.1):
                     if electrons[i].cutBased >= 3:
                         lower_pt_electrons.append(i)
-                    elif electrons[i].cutBased >= 1:
-                        lower_pt_electrons.append(i)
 
         if len(tight_muons) + len(loose_but_not_tight_muons) +  len(tight_electrons) + len(loose_but_not_tight_electrons) > 1:
             return False
@@ -116,8 +112,8 @@ class v3Producer(Module):
                 continue
             if abs(jets[i].eta) > 4.7:
                 continue
-#            if not jets[i].jetId & (1 << 0):
-#                continue
+            if not jets[i].jetId & (1 << 0):
+                continue
             pass_lepton_dr_cut = True
             for j in range(0,len(tight_muons)):
                 if deltaR(muons[tight_muons[j]].eta,muons[tight_muons[j]].phi,jets[i].eta,jets[i].phi) < 0.5:
@@ -147,8 +143,8 @@ class v3Producer(Module):
                 continue
             if abs(fatjets[i].eta) > 4.7:
                 continue
-#            if not fatjets[i].jetId & (1 << 0):
-#                continue
+            if not fatjets[i].jetId & (1 << 0):
+                continue
             pass_lepton_dr_cut = True
             for j in range(0,len(tight_muons)):
                 if deltaR(muons[tight_muons[j]].eta,muons[tight_muons[j]].phi,fatjets[i].eta,fatjets[i].phi) < 0.5:
@@ -190,11 +186,13 @@ class v3Producer(Module):
                 return False
             if debug:
                 print "selected muon event: " + str(event.event) + " " + str(event.luminosityBlock) + " " + str(event.run)
+
             self.out.fillBranch("mt",sqrt(2*muons[tight_muons[0]].pt*event.MET_pt*(1 - cos(event.MET_phi - muons[tight_muons[0]].phi))))
             self.out.fillBranch("lepton_pdg_id",13)
             self.out.fillBranch("lepton_pt",muons[tight_muons[0]].pt)
             self.out.fillBranch("lepton_eta",muons[tight_muons[0]].eta)
             self.out.fillBranch("lepton_phi",muons[tight_muons[0]].phi)
+
         elif len(tight_electrons) == 1:
             if not event.HLT_Ele27_WPTight_Gsf:
                 return False
@@ -206,6 +204,7 @@ class v3Producer(Module):
                 return False
             if debug:
                 print "selected electron event: " + str(event.event) + " " + str(event.luminosityBlock) + " " + str(event.run)
+
             self.out.fillBranch("mt",sqrt(2*electrons[tight_electrons[0]].pt*event.MET_pt*(1 - cos(event.MET_phi - electrons[tight_electrons[0]].phi))))
             self.out.fillBranch("lepton_pdg_id",11)
             self.out.fillBranch("lepton_pt",electrons[tight_electrons[0]].pt)
