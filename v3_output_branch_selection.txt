@@ -1,3 +1,2 @@
 drop *
-keep LHEPdfWeight 
-keep LHEScaleWeight 
+keep Generator_* 
