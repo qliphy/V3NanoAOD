@@ -4,13 +4,13 @@ from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'Nano_ww16'
+config.General.requestName = 'Nano_ww_2016'
 config.General.transferLogs=True
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'PSet.py'
 config.JobType.scriptExe = 'crab_script.sh'
-config.JobType.inputFiles = ['../v3_postproc.py'] #hadd nano will not be needed once nano tools are in cmssw
+config.JobType.inputFiles = ['crab_script.py', '../v3_postproc.py', '../v3Module.py', '../v3_keep_and_drop.txt', '../v3_output_branch_selection.txt', '../countHistogramsModule.py'] #hadd nano will not be needed once nano tools are in cmssw
 config.JobType.sendPythonFolder	 = True
 config.JobType.allowUndistributedCMSSW = True
 
@@ -25,7 +25,7 @@ config.Data.totalUnits = -1
 
 #config.Data.outLFNDirBase = '/store/user/%s/NanoPost' % (getUsernameFromSiteDB())
 config.Data.publication = False
-config.Data.outputDatasetTag = 'NanoTestPost'
+config.Data.outputDatasetTag = 'NanoTest'
 config.section_("Site")
 config.Site.storageSite = "T2_CH_CERN"
 
