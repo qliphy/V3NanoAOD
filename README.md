@@ -9,7 +9,7 @@ https://cms-nanoaod-integration.web.cern.ch/integration/master-102X/mc102X_doc.h
 The same recipe works for 2016/2017/2018,  
 NanoAOD version4?
 
-cmsrel CMSSW_10_2_14
+cmsrel CMSSW_10_2_15 (NonoAODv5 release)
 
 git clone https://github.com/cms-nanoAOD/nanoAOD-tools.git PhysicsTools/NanoAODTools
 
