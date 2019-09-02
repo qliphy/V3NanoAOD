@@ -9,7 +9,7 @@ from countHistogramsModule import *
 #from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import inputFiles,runsAndLumis
 
 nevents = 40000
-preselection="(nElectron + nMuon) > 1"
+preselection="(nElectron + nMuon) > 0"
 
 #---local------------------------
 files=['1.root']
