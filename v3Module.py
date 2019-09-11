@@ -46,6 +46,10 @@ class v3Producer(Module):
         self.out.branch("fatjets_deepw","F",lenVar="fatjetsize");
         self.out.branch("fatjets_deeph","F",lenVar="fatjetsize");
         self.out.branch("gen_weight",  "F");
+        self.out.branch("gen_gra_eta",  "F");
+        self.out.branch("gen_gra_m",  "F");
+        self.out.branch("gen_gra_pt",  "F");
+        self.out.branch("gen_gra_phi",  "F");
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
@@ -64,6 +68,28 @@ class v3Producer(Module):
             genparts = Collection(event, "GenPart")
         if hasattr(event,'nLHEPart'):    
             lheparts = Collection(event, "LHEPart")
+#MC------------------------------------------------------------
+        gen_gra_eta=-10.
+        gen_gra_m=-10.
+        gen_gra_pt=-10.
+        gen_gra_phi=-10.          
+        if hasattr(event,'nGenPart'):
+           for i in range(0,len(genparts)):
+              if abs(genparts[i].pdgId) == 9000024:
+                gen_gra_eta=genparts[i].eta
+                gen_gra_m=genparts[i].mass
+                gen_gra_pt=genparts[i].pt
+                gen_gra_phi=genparts[i].phi
+
+        self.out.fillBranch("gen_gra_eta",gen_gra_eta)
+        self.out.fillBranch("gen_gra_m",gen_gra_m)
+        self.out.fillBranch("gen_gra_pt",gen_gra_pt)
+        self.out.fillBranch("gen_gra_phi",gen_gra_phi)
+
+
+#MC------------------------------------------------------------
+
+
             
         debug = False
         lower_pt_muons = []
